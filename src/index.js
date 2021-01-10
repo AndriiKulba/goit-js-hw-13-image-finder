@@ -1,24 +1,29 @@
 import './styles.css';
 import articlesTpl from './templates/gallery.hbs';
 import NewsApiService from './js/apiService';
+import onFetchError from './js/pnotify';
+import getLargeImg from './js/basiclightbox';
+
 const refs = getRefs();
-const newsApiService = new NewsApiService();
+const newApiService = new NewsApiService();
 
 refs.searchForm.addEventListener('submit', onSearch);
+refs.articlesContainer.addEventListener('click', getLargeImg);
 
 function onSearch(e) {
   e.preventDefault();
-  newsApiService.query = e.currentTarget.elements.query.value;
+  newApiService.query = e.currentTarget.elements.query.value;
 
-  if (newsApiService.query === '') {
-    return alert('Введи что-то нормальное');
+  if (newApiService.query === '') {
+    onFetchError('За вашим запитом нічого не знайдено!!!');
+    return;
   }
 
-  newsApiService.resetPage();
+  newApiService.resetPage();
   clearArticlesContainer();
-  newsApiService.fetchArticles().then(hits => {
+  newApiService.fetchArticles().then(hits => {
     appendArticlesMarkup(hits);
-    newsApiService.incrementPage();
+    newApiService.incrementPage();
   });
 }
 
@@ -40,11 +45,10 @@ function getRefs() {
 
 const onEntry = entries => {
   entries.forEach(entry => {
-    if (entry.isIntersecting && newsApiService.query !== '') {
-      // console.log('Пора грузить еще статьи' + Date.now());
-      newsApiService.fetchArticles().then(hits => {
+    if (entry.isIntersecting && newApiService.query !== '') {
+      newApiService.fetchArticles().then(hits => {
         appendArticlesMarkup(hits);
-        newsApiService.incrementPage();
+        newApiService.incrementPage();
       });
     }
   });

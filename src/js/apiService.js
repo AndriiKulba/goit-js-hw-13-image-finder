@@ -2,7 +2,7 @@ const API_KEY = '19823540-1f511813796e20603cd716e3a';
 const BASE_URL =
   'https://pixabay.com/api/?image_type=photo&orientation=horizontal';
 
-export default class NewsApiService {
+export default class NewApiService {
   constructor() {
     this.searchQuery = '';
     this.page = 1;
@@ -16,10 +16,10 @@ export default class NewsApiService {
       key: API_KEY,
     });
     const url = `${BASE_URL}&${searchParams}`;
-    console.log(url);
+
     //pixabay.com/api/?image_type=photo&orientation=horizontal&q=что_искать&page=номер_страницы&per_page=12&key=твой_ключ
 
-    https: return fetch(url)
+    return fetch(url)
       .then(response => response.json())
       .then(({ hits }) => hits);
   }
