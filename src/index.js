@@ -21,10 +21,11 @@ function onSearch(e) {
 
   newApiService.resetPage();
   clearArticlesContainer();
-  newApiService.fetchArticles().then(hits => {
-    appendArticlesMarkup(hits);
-    newApiService.incrementPage();
-  });
+  // newApiService.fetchArticles().then(hits => {
+  //   appendArticlesMarkup(hits);
+  //   newApiService.incrementPage();
+  // });
+  observer.observe(refs.sentinel);
 }
 
 function appendArticlesMarkup(hits) {
@@ -57,4 +58,4 @@ const onEntry = entries => {
 const observer = new IntersectionObserver(onEntry, {
   rootMargin: '150px',
 });
-observer.observe(refs.sentinel);
+// observer.observe(refs.sentinel);
